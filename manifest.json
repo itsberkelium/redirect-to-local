@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Redirect to Local",
+  "version": "0.1.1",
+  "author": "itsberkelium",
+  "homepage_url": "https://berke.dev",
+  "icons": { "48": "icons/redirect.svg", "96": "icons/redirect.svg", "128": "icons/redirect.svg" },
+  "description": "Redirect a configured website to localhost when your development server is running.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "redirect-to-local@berke.dev",
+      "strict_min_version": "142.0",
+      "data_collection_permissions": { "required": ["none"] }
+    }
+  },
+  "permissions": ["storage", "webRequest", "webRequestBlocking"],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "background": { "scripts": ["shared.js", "background.js"] },
+  "action": {
+    "default_title": "Redirect to Local",
+    "default_popup": "popup.html",
+    "default_icon": { "16": "icons/redirect.svg", "32": "icons/redirect.svg" }
+  },
+  "options_ui": { "page": "popup.html", "open_in_tab": false }
+}

@@ -1,0 +1,17 @@
+:root { color-scheme: light dark; font-family: system-ui, sans-serif; color: #edf2fc; background: #111827; }
+* { box-sizing: border-box; }
+body { margin: 0; width: 360px; max-width: 100%; }
+main { padding: 24px; }
+.eyebrow { color: #8cb8ff; font-size: 10px; font-weight: 700; letter-spacing: 1.7px; }
+h1 { margin: 10px 0; font-size: 23px; letter-spacing: -0.6px; }
+.intro { margin: 0 0 23px; color: #bac5d8; font-size: 13px; line-height: 1.6; }
+label { display: block; margin: 16px 0 7px; font-size: 13px; font-weight: 600; }
+input { width: 100%; padding: 11px 12px; border: 1px solid #46536a; border-radius: 7px; background: #1a2538; color: #fff; font: inherit; font-size: 14px; }
+input:focus-visible, button:focus-visible { outline: 2px solid #98bdff; outline-offset: 3px; }
+.hint { color: #a5b4cd; font-size: 11px; line-height: 1.6; margin: 9px 0 20px; }
+button { width: 100%; border: 0; border-radius: 7px; padding: 11px; background: #a3c6ff; color: #11213c; cursor: pointer; font: inherit; font-size: 13px; font-weight: 650; }
+button:hover { filter: brightness(1.08); }
+button:disabled { opacity: 0.6; cursor: wait; }
+.secondary { background: transparent; color: #bac5d8; margin-top: 7px; }
+#status { margin: 12px 0 0; font-size: 12px; line-height: 1.5; color: #a8e4c1; overflow-wrap: anywhere; }
+#status.error { color: #ffb3b3; }

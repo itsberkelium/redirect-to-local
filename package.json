@@ -1,0 +1,8 @@
+{
+  "name": "redirect-to-local",
+  "version": "0.1.1",
+  "author": "itsberkelium",
+  "homepage": "https://berke.dev",
+  "private": true,
+  "scripts": { "test": "node --test tests/*.test.cjs" }
+}
