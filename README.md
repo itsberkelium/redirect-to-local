@@ -1,5 +1,8 @@
 # Redirect to Local
 
+[![Version](https://img.shields.io/github/v/release/itsberkelium/redirect-to-local?label=version)](https://github.com/itsberkelium/redirect-to-local/releases/latest)
+[![Tests](https://github.com/itsberkelium/redirect-to-local/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/itsberkelium/redirect-to-local/actions/workflows/tests.yml)
+
 <img src="icons/redirect.svg" alt="Redirect to Local icon" width="80" height="80">
 
 A Firefox extension that saves a website URL and localhost port. When you visit that website, it checks your local server and redirects only if it responds.
