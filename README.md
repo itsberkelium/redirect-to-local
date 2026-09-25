@@ -4,6 +4,8 @@
 
 A Firefox extension that saves a website URL and localhost port. When you visit that website, it checks your local server and redirects only if it responds.
 
+**[Install from Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/redirect-to-local/)**
+
 <img src="docs/popup.png" alt="Firefox popup with localhost port 3000, example.com, and the pause redirects control" width="360">
 
 For example, with URL `https://example.com` and port `3000`:
@@ -12,7 +14,11 @@ For example, with URL `https://example.com` and port `3000`:
 https://example.com/test?a=b → http://localhost:3000/test?a=b
 ```
 
-## Load in Firefox
+## Install
+
+Install [Redirect to Local from Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/redirect-to-local/), then open the extension from Firefox's extensions menu. Enter your localhost port and website URL, and click **Save settings**.
+
+## Load locally for development
 
 1. Open `about:debugging#/runtime/this-firefox`.
 2. Click **Load Temporary Add-on…** and select this project's `manifest.json`.
