@@ -24,3 +24,7 @@ jobs:
           package-manager-cache: false
       - name: Run tests
         run: npm test
+      - name: Build Chrome and Firefox packages
+        run: |
+          npm run build:chrome
+          npm run build:firefox

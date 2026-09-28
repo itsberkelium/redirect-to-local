@@ -4,5 +4,9 @@
   "author": "itsberkelium",
   "homepage": "https://berke.dev",
   "private": true,
-  "scripts": { "test": "node --test tests/*.test.cjs" }
+  "scripts": {
+    "test": "node --test tests/*.test.cjs",
+    "build:chrome": "node scripts/build.cjs chrome",
+    "build:firefox": "node scripts/build.cjs firefox"
+  }
 }

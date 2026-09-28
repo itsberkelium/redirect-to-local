@@ -1,3 +1,4 @@
+const extensionAPI = globalThis.browser ?? globalThis.chrome;
 const form = document.querySelector("#settings-form");
 const portInput = document.querySelector("#port");
 const urlInput = document.querySelector("#url");
@@ -15,7 +16,7 @@ function showPaused(value) {
     : "Redirects enabled when settings are saved.";
 }
 
-browser.storage.onChanged.addListener((changes, area) => {
+extensionAPI.storage.onChanged.addListener((changes, area) => {
   if (area === "local" && changes.paused) showPaused(changes.paused.newValue);
 });
 
@@ -29,7 +30,7 @@ function busy(value) {
 }
 
 busy(true);
-browser.storage.local.get(["settings", "paused"]).then(({ settings, paused }) => {
+extensionAPI.storage.local.get(["settings", "paused"]).then(({ settings, paused }) => {
   showPaused(paused);
   if (settings) {
     portInput.value = settings.port;
@@ -43,7 +44,7 @@ pauseButton.addEventListener("click", async () => {
   busy(true);
   try {
     const nextPaused = !paused;
-    await browser.storage.local.set({ paused: nextPaused });
+    await extensionAPI.storage.local.set({ paused: nextPaused });
     showPaused(nextPaused);
     message(nextPaused ? "Redirects paused." : "Redirects resumed.");
   } catch {
@@ -58,7 +59,7 @@ form.addEventListener("submit", async (event) => {
   busy(true);
   try {
     const settings = RedirectLocal.parseSettings({ port: portInput.value, url: urlInput.value });
-    await browser.storage.local.set({ settings });
+    await extensionAPI.storage.local.set({ settings });
     portInput.value = settings.port;
     urlInput.value = settings.url;
     message(`Saved: ${settings.url} → localhost:${settings.port}`);
@@ -72,7 +73,7 @@ form.addEventListener("submit", async (event) => {
 document.querySelector("#clear").addEventListener("click", async () => {
   busy(true);
   try {
-    await browser.storage.local.remove("settings");
+    await extensionAPI.storage.local.remove("settings");
     form.reset();
     message("Settings cleared. Redirects are off.");
   } catch {

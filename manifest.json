@@ -15,7 +15,7 @@
   },
   "permissions": ["storage", "webRequest", "webRequestBlocking"],
   "host_permissions": ["http://*/*", "https://*/*"],
-  "background": { "scripts": ["shared.js", "background.js"] },
+  "background": { "scripts": ["shared.js", "background-core.js", "background.js"] },
   "action": {
     "default_title": "Redirect to Local",
     "default_popup": "popup.html",

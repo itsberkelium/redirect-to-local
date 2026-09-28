@@ -23,7 +23,7 @@ function setup({ stored = { port: 3000, url: "https://example.com" }, paused = f
       } } }
     }
   });
-  for (const file of ["shared.js", "background.js"]) {
+  for (const file of ["shared.js", "background-core.js", "background.js"]) {
     vm.runInContext(fs.readFileSync(path.join(__dirname, "..", file), "utf8"), context);
   }
   return {
