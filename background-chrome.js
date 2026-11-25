@@ -32,12 +32,24 @@ async function redirectNavigation(request, navigation) {
   }
 }
 
-chrome.webRequest.onBeforeRequest.addListener((request) => {
+function startNavigation(request) {
   if (request.tabId < 0) return;
   const navigation = { url: request.url };
   navigations.set(request.tabId, navigation);
   void redirectNavigation(request, navigation);
-}, { urls: ["http://*/*", "https://*/*"], types: ["main_frame"] });
+}
+
+chrome.webRequest.onBeforeRequest.addListener(
+  startNavigation,
+  { urls: ["http://*/*", "https://*/*"], types: ["main_frame"] }
+);
+
+// In-page navigations (history.pushState or replaceState) send no network request,
+// so webRequest cannot see them. A history update is never a form submission, so it is a GET.
+chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
+  if (details.frameId !== 0) return;
+  startNavigation({ tabId: details.tabId, method: "GET", url: details.url });
+}, { url: [{ schemes: ["http", "https"] }] });
 
 chrome.tabs.onRemoved.addListener((tabId) => navigations.delete(tabId));
 chrome.tabs.onUpdated.addListener((tabId, change) => {

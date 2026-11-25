@@ -5,7 +5,7 @@ const vm = require("node:vm");
 const path = require("node:path");
 
 function setup({ paused = false, fetchImpl = async () => ({ status: 200 }) } = {}) {
-  let listener, changed, removed, updated;
+  let listener, changed, removed, updated, historyListener;
   let tab = { url: "https://example.com/a%2Fb?q=1&q=2#section" };
   const redirects = [], probes = [];
   const context = vm.createContext({
@@ -21,6 +21,7 @@ function setup({ paused = false, fetchImpl = async () => ({ status: 200 }) } = {
         assert.equal(extra, undefined, "Chrome must not request blocking access");
         assert.deepEqual(Array.from(filter.types), ["main_frame"]);
       } } },
+      webNavigation: { onHistoryStateUpdated: { addListener: fn => { historyListener = fn; } } },
       tabs: {
         get: async () => { if (!tab) throw new Error("Tab closed"); return tab; },
         update: async (id, options) => redirects.push({ id, ...options }),
@@ -34,6 +35,7 @@ function setup({ paused = false, fetchImpl = async () => ({ status: 200 }) } = {
   return {
     redirects, probes,
     request: (values = {}) => listener({ tabId: 1, method: "GET", url: "https://example.com/a%2Fb?q=1&q=2", ...values }),
+    history: (values = {}) => historyListener({ tabId: 1, frameId: 0, url: "https://example.com/a%2Fb?q=1&q=2", ...values }),
     change: values => changed(values, "local"),
     navigate: url => { tab = { url }; updated(1, { url }); },
     close: () => { tab = null; removed(1); }
@@ -75,4 +77,11 @@ test("Chrome discards stale probes after navigation, close, pause, settings edit
     app.request(); await flush(); change(app); resolve({ status: 200 }); await flush();
     assert.equal(app.redirects.length, 0);
   }
+});
+
+test("Chrome redirects after an in-page history navigation in the top frame only", async () => {
+  const app = setup(); app.history({ frameId: 2 }); await flush();
+  assert.equal(app.redirects.length, 0);
+  app.history(); await flush();
+  assert.deepEqual(app.redirects, [{ id: 1, url: "http://localhost:3000/a%2Fb?q=1&q=2#section" }]);
 });

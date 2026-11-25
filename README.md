@@ -60,7 +60,7 @@ Temporary add-ons are removed when Firefox restarts. Permanent installation in s
 
 HTTP/HTTPS host access allows matching the website you configure and checking localhost. Firefox may ask you to grant website access; redirects require that access. The extension inspects top-level navigation URLs, stores the two settings and pause status, and sends a HEAD request to localhost while enabled. It has no analytics or external service.
 
-The Firefox background uses the [asynchronous blocking webRequest API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/onBeforeRequest). Chrome uses a service worker with a [non-blocking request observer](https://developer.chrome.com/docs/extensions/reference/api/webRequest) and the tabs API. Both builds share settings and availability-check code; saved preferences are local to each browser.
+The Firefox background uses the [asynchronous blocking webRequest API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/onBeforeRequest). Chrome uses a service worker with a [non-blocking request observer](https://developer.chrome.com/docs/extensions/reference/api/webRequest), the webNavigation API for in-page navigations and the tabs API. Both builds share settings and availability-check code; saved preferences are local to each browser.
 
 ## Verify
 
