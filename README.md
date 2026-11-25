@@ -30,7 +30,7 @@ Install [Redirect to Local from Firefox Add-ons](https://addons.mozilla.org/en-U
 3. Click **Load unpacked** and select this project's `dist/chrome` folder.
 4. Open the extension popup and save your website URL and localhost port.
 
-Chrome 109 or later is required. The Chrome Web Store upload package is `dist/redirect-to-local-chrome-0.1.2.zip`. Chrome support is not yet published to the Chrome Web Store.
+Chrome 109 or later is required. The Chrome Web Store upload package is `dist/redirect-to-local-chrome-0.2.0.zip`. Chrome support is not yet published to the Chrome Web Store.
 
 Chrome Manifest V3 does not allow ordinary extensions to block requests while checking localhost. The Chrome build observes top-level GET requests, checks localhost, and then navigates the tab. The original website may begin loading or briefly appear during the check. It abandons the redirect if settings change or the tab navigates away. In-page navigations that change the address (`history.pushState` or `replaceState`) trigger a new check.
 
