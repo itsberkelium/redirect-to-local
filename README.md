@@ -9,7 +9,7 @@ A Firefox and Chrome extension that saves a website URL and localhost port. When
 
 **[Install from Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/redirect-to-local/)**
 
-<img src="docs/popup.png" alt="Firefox popup with localhost port 3000, example.com, and the pause redirects control" width="360">
+<img src="docs/popup.png" alt="Popup with localhost port 3000, example.com, the carry over options and the pause redirects control" width="360">
 
 For example, with URL `https://example.com` and port `3000`:
 
