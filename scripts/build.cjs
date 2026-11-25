@@ -10,7 +10,7 @@ const files = ["shared.js", "background-core.js", "popup.html", "popup.css", "po
 if (target === "chrome") {
   delete manifest.browser_specific_settings;
   manifest.minimum_chrome_version = "109";
-  manifest.permissions = ["storage", "webRequest"];
+  manifest.permissions = ["storage", "webRequest", "webNavigation"];
   manifest.background = { service_worker: "background-chrome.js" };
   manifest.icons = Object.fromEntries([16, 32, 48, 128].map(size => [size, `icons/redirect-${size}.png`]));
   manifest.action.default_icon = { "16": "icons/redirect-16.png", "32": "icons/redirect-32.png" };
