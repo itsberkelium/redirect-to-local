@@ -13,7 +13,7 @@
       "data_collection_permissions": { "required": ["none"] }
     }
   },
-  "permissions": ["storage", "webRequest", "webRequestBlocking"],
+  "permissions": ["storage", "webRequest", "webRequestBlocking", "webNavigation", "cookies", "scripting"],
   "host_permissions": ["http://*/*", "https://*/*"],
   "background": { "scripts": ["shared.js", "background-core.js", "background.js"] },
   "action": {

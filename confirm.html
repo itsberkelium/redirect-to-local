@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Carry data to localhost?</title>
+    <link rel="stylesheet" href="popup.css">
+    <script src="confirm.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <span class="eyebrow">REDIRECT TO LOCAL</span>
+      <h1>Carry data to localhost?</h1>
+      <p id="summary" class="intro"></p>
+      <ul id="items" class="items"></ul>
+      <p id="temp-tab" class="hint" hidden>If this tab is not already on the website, an inactive tab opens on the website and closes after it reads localStorage.</p>
+      <button id="carry" type="button">Redirect and carry data</button>
+      <button id="plain" class="secondary" type="button">Redirect without data</button>
+      <button id="stay" class="secondary" type="button">Stay on the website</button>
+    </main>
+  </body>
+</html>

@@ -21,6 +21,16 @@
         <label for="url">Website URL</label>
         <input id="url" name="url" type="text" placeholder="https://example.com" spellcheck="false" autocomplete="off" required aria-describedby="url-help">
         <p id="url-help" class="hint">Matches this exact hostname and port on HTTP or HTTPS. All paths and query strings are kept. Subdomains are separate.</p>
+        <fieldset>
+          <legend>Carry over to localhost</legend>
+          <label class="check"><input type="checkbox" id="carry-cookies"> Cookies</label>
+          <label class="check"><input type="checkbox" id="carry-localStorage"> localStorage</label>
+          <label class="check"><input type="checkbox" id="carry-sessionStorage"> sessionStorage</label>
+          <p id="carry-info" class="hint" hidden>
+            When you open the website from another page, the extension opens an inactive tab on the website and closes it right after it reads localStorage. sessionStorage is copied only if the tab is already on the website, because a new tab has none. Values from the website overwrite matching values on localhost. Cookies on localhost are shared by every port.
+          </p>
+          <label class="check"><input type="checkbox" id="warn" checked> Ask me every time before carrying data over</label>
+        </fieldset>
         <button id="save" type="submit">Save settings</button>
         <button id="clear" class="secondary" type="button">Clear settings</button>
       </form>
