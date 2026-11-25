@@ -16,6 +16,9 @@ function setup({ stored = { port: 3000, url: "https://example.com" }, paused = f
         local: { get: async () => ({ settings: stored, paused }) },
         onChanged: { addListener: (callback) => { changed = callback; } }
       },
+      webNavigation: { onCommitted: { addListener: () => {} } },
+      tabs: { onRemoved: { addListener: () => {} } },
+      runtime: { id: "test", onMessage: { addListener: () => {} } },
       webRequest: { onBeforeRequest: { addListener: (callback, filter, extra) => {
         listener = callback;
         assert.deepEqual(Array.from(filter.types), ["main_frame"]);

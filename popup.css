@@ -15,3 +15,11 @@ button:disabled { opacity: 0.6; cursor: wait; }
 .secondary { background: transparent; color: #bac5d8; margin-top: 7px; }
 #status { margin: 12px 0 0; font-size: 12px; line-height: 1.5; color: #a8e4c1; overflow-wrap: anywhere; }
 #status.error { color: #ffb3b3; }
+fieldset { margin: 16px 0 0; padding: 0; border: 0; }
+legend { padding: 0; font-size: 13px; font-weight: 600; }
+.check { display: flex; align-items: center; gap: 8px; margin: 10px 0 0; font-weight: 400; }
+.check input { width: auto; margin: 0; }
+fieldset .hint { margin: 10px 0 0; }
+fieldset .check:last-child { margin-bottom: 20px; }
+.items { margin: 0 0 14px; padding-left: 20px; font-size: 13px; line-height: 1.8; }
+[hidden] { display: none !important; }

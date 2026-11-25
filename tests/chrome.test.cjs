@@ -21,7 +21,11 @@ function setup({ paused = false, fetchImpl = async () => ({ status: 200 }) } = {
         assert.equal(extra, undefined, "Chrome must not request blocking access");
         assert.deepEqual(Array.from(filter.types), ["main_frame"]);
       } } },
-      webNavigation: { onHistoryStateUpdated: { addListener: fn => { historyListener = fn; } } },
+      webNavigation: {
+        onHistoryStateUpdated: { addListener: fn => { historyListener = fn; } },
+        onCommitted: { addListener: () => {} }
+      },
+      runtime: { id: "test", onMessage: { addListener: () => {} } },
       tabs: {
         get: async () => { if (!tab) throw new Error("Tab closed"); return tab; },
         update: async (id, options) => redirects.push({ id, ...options }),

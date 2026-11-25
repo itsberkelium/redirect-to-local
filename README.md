@@ -32,7 +32,7 @@ Install [Redirect to Local from Firefox Add-ons](https://addons.mozilla.org/en-U
 
 Chrome 109 or later is required. The Chrome Web Store upload package is `dist/redirect-to-local-chrome-0.1.2.zip`. Chrome support is not yet published to the Chrome Web Store.
 
-Chrome Manifest V3 does not allow ordinary extensions to block requests while checking localhost. The Chrome build observes top-level GET requests, checks localhost, and then navigates the tab. The original website may begin loading or briefly appear during the check. It abandons the redirect if settings change or the tab navigates away. Same-document navigation without a network request does not trigger a new check.
+Chrome Manifest V3 does not allow ordinary extensions to block requests while checking localhost. The Chrome build observes top-level GET requests, checks localhost, and then navigates the tab. The original website may begin loading or briefly appear during the check. It abandons the redirect if settings change or the tab navigates away. In-page navigations that change the address (`history.pushState` or `replaceState`) trigger a new check.
 
 ### Firefox
 
@@ -46,19 +46,24 @@ Temporary add-ons are removed when Firefox restarts. Permanent installation in s
 
 ## Behavior
 
-- The two settings are stored locally in Firefox. Clear settings to turn redirects off.
+- The settings are stored locally in the browser. Clear settings to turn redirects off.
 - Use **Pause redirects** to temporarily stop redirects without clearing your settings, then **Resume redirects** to enable them again. Pause status is saved across browser restarts. Saving or clearing settings does not change pause status. Pausing affects future navigations, not pages already open.
 - URLs without a scheme are accepted. Saving a URL with a path keeps its origin; matching applies to every path on that host.
 - Matches the exact hostname and explicit non-default port, across HTTP and HTTPS. `example.com` does not match `www.example.com` or other subdomains.
 - Preserves the requested path, URL encoding, and query string. Redirect destinations use `http://localhost:PORT`.
 - Checks the local root URL with a `HEAD` request before each matching navigation. Any HTTP response, including 404, 405, or 500, means the server is reachable. No response within 1.5 seconds, or a connection failure, leaves navigation unchanged.
 - Redirects ordinary top-level GET navigations only. Form POSTs, embedded frames, and background requests are not redirected.
+- Optionally carries **cookies**, **localStorage** and **sessionStorage** from the website to localhost. You choose which ones in the popup; all are off by default. Values from the website overwrite matching cookies and keys on localhost. Other localhost values stay.
+- Cookies are copied before the redirect, including HttpOnly cookies. They apply to `localhost` on every port. `Secure` and `SameSite=None` cannot apply to HTTP, so the copy drops them. The browser may refuse some cookies, such as `__Host-` cookies. The extension skips those.
+- If the tab already shows the website (for example an in-page navigation), localStorage and sessionStorage come from that tab. Otherwise the extension opens an inactive tab at `/robots.txt` on the website, reads localStorage, and closes the tab. That tab is never redirected. A new tab has no sessionStorage, so sessionStorage is carried only from a tab that is already on the website.
+- Storage is written right after the localhost page commits. An inline script at the very top of a page can read storage before that write. The values are there once the page has loaded.
+- **Ask me every time before carrying data over** opens a small popup window before each redirect. The tab stays on the website until you answer: **Redirect and carry data**, **Redirect without data** or **Stay on the website**. This setting is on by default when you first set up carrying, and it has no effect when no option is selected.
 - Localhost cannot be used as the source, preventing redirect loops. HTTPS-only local servers are not supported.
 - Availability is checked before redirecting; a server that stops immediately afterward can still result in a connection error.
 
 ## Permissions and privacy
 
-HTTP/HTTPS host access allows matching the website you configure and checking localhost. Firefox may ask you to grant website access; redirects require that access. The extension inspects top-level navigation URLs, stores the two settings and pause status, and sends a HEAD request to localhost while enabled. It has no analytics or external service.
+HTTP/HTTPS host access allows matching the website you configure and checking localhost. Firefox may ask you to grant website access; redirects require that access. The extension inspects top-level navigation URLs, stores its settings and pause status, and sends a HEAD request to localhost while enabled. The `cookies` and `scripting` permissions are used only when you select an option to carry data over: they read the website's cookies and storage and write them to localhost. Nothing is sent to any other server. It has no analytics or external service.
 
 The Firefox background uses the [asynchronous blocking webRequest API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/onBeforeRequest). Chrome uses a service worker with a [non-blocking request observer](https://developer.chrome.com/docs/extensions/reference/api/webRequest), the webNavigation API for in-page navigations and the tabs API. Both builds share settings and availability-check code; saved preferences are local to each browser.
 

@@ -17,6 +17,11 @@ async function redirectNavigation(request, navigation) {
     const currentRevision = revision;
     if (!RedirectLocal.redirectTarget(request.url, current)) return;
     if (!await isLocalhostRunning(current.port)) return;
+    if (shouldAsk(current)) {
+      await askAboutCarry(request.tabId, RedirectLocal.redirectTarget(request.url, current), current);
+      return;
+    }
+    const payload = await collectCarry(request.tabId, current);
 
     // Do not replace a newer navigation or redirect a tab closed during the probe.
     const tab = await chrome.tabs.get(request.tabId);
@@ -24,7 +29,9 @@ async function redirectNavigation(request, navigation) {
     if (!currentUrl || withoutHash(currentUrl) !== withoutHash(request.url)) return;
     if (paused || revision !== currentRevision || navigations.get(request.tabId) !== navigation) return;
     const target = RedirectLocal.redirectTarget(currentUrl, current);
-    if (target) await chrome.tabs.update(request.tabId, { url: target });
+    if (!target) return;
+    queueCarry(request.tabId, current.port, payload);
+    await chrome.tabs.update(request.tabId, { url: target });
   } catch {
     // A closed tab, revoked access, or browser-internal page leaves navigation alone.
   } finally {
